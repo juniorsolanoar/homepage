@@ -1,0 +1,250 @@
+:root {
+	--bg: #020617;
+	--card: rgba(15, 23, 42, 0.6);
+	--text: #e2e8f0;
+	--muted: #64748b;
+	--primary: #7c3aed;
+	--gradient: linear-gradient(135deg, #7c3aed, #06b6d4);
+	--radius: 16px;
+}
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-family: "Inter", sans-serif;
+	scroll-behavior: smooth;
+}
+
+body {
+	background: var(--bg);
+	color: var(--text);
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+}
+
+header {
+	position: sticky;
+	top: 0;
+	backdrop-filter: blur(12px);
+	background: rgba(2, 6, 23, 0.6);
+	border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+	padding: 1rem 1.5rem;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	z-index: 1000;
+}
+
+.logo {
+	cursor: pointer;
+	font-weight: 700;
+}
+
+nav {
+	display: none;
+	gap: 1.5rem;
+}
+
+nav a {
+	color: var(--text);
+	text-decoration: none;
+	position: relative;
+}
+
+nav a::after {
+	content: "";
+	position: absolute;
+	bottom: -4px;
+	left: 0;
+	width: 0%;
+	height: 2px;
+	background: var(--gradient);
+	transition: 0.3s;
+}
+
+nav a:hover::after {
+	width: 100%;
+}
+
+.btn {
+	background: var(--gradient);
+	padding: 0.6rem 1rem;
+	border-radius: 999px;
+	color: white;
+	text-decoration: none;
+	transition: 0.3s;
+}
+
+.btn:hover {
+	box-shadow: 0 0 20px rgba(124, 58, 237, 0.6);
+}
+
+.burger {
+	display: flex;
+	flex-direction: column;
+	gap: 5px;
+	cursor: pointer;
+}
+
+.burger span {
+	width: 25px;
+	height: 2px;
+	background: var(--text);
+	transition: 0.3s;
+}
+
+.burger.active span:nth-child(1) {
+	transform: rotate(45deg) translateY(6px);
+}
+.burger.active span:nth-child(2) {
+	opacity: 0;
+}
+.burger.active span:nth-child(3) {
+	transform: rotate(-45deg) translateY(-6px);
+}
+
+/* MOBILE MENU FIXED + LOWER */
+.mobile-menu {
+	position: fixed;
+	top: 70px;
+	right: 0;
+	height: calc(100vh - 70px);
+	width: 75%;
+	background: rgba(2, 6, 23, 0.95);
+	backdrop-filter: blur(20px);
+	display: flex;
+	flex-direction: column;
+	padding: 2rem;
+	gap: 1rem;
+	transform: translateX(100%);
+	transition: transform 0.4s ease;
+}
+
+.mobile-menu.open {
+	transform: translateX(0);
+}
+
+.mobile-menu a {
+	opacity: 0;
+	transform: translateX(20px);
+	text-decoration: none;
+	color: var(--text);
+	padding: 0.9rem 1rem;
+	border-radius: 10px;
+	background: rgba(255, 255, 255, 0.03);
+	transition: 0.3s;
+}
+
+.mobile-menu.open a {
+	opacity: 1;
+	transform: translateX(0);
+}
+
+.mobile-menu a:nth-child(1) {
+	transition-delay: 0.1s;
+}
+.mobile-menu a:nth-child(2) {
+	transition-delay: 0.2s;
+}
+.mobile-menu a:nth-child(3) {
+	transition-delay: 0.3s;
+}
+
+.mobile-menu a:hover {
+	background: rgba(124, 58, 237, 0.2);
+	transform: translateX(6px);
+}
+
+.hero,
+.section {
+	padding: 2rem 1.5rem;
+	text-align: center;
+}
+
+.hero h1 {
+	font-size: 1.8rem;
+	background: var(--gradient);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+}
+
+.hero p {
+	color: var(--muted);
+	margin: 1rem 0;
+}
+
+.cards {
+	display: grid;
+	gap: 1rem;
+}
+
+.card {
+	background: var(--card);
+	padding: 1.5rem;
+	border-radius: var(--radius);
+	transition: 0.3s;
+}
+
+.card:hover {
+	transform: translateY(-5px);
+	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+footer {
+	margin-top: auto;
+	text-align: center;
+	padding: 1.5rem;
+	color: var(--muted);
+}
+
+/* MODAL APPLE STYLE */
+.modal {
+	position: fixed;
+	inset: 0;
+	background: rgba(0, 0, 0, 0.5);
+	backdrop-filter: blur(10px);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	opacity: 0;
+	pointer-events: none;
+	transition: 0.3s;
+}
+
+.modal.open {
+	opacity: 1;
+	pointer-events: all;
+}
+
+.modal::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background: url("https://grainy-gradients.vercel.app/noise.svg");
+	opacity: 0.2;
+}
+
+.modal-card {
+	position: relative;
+	background: var(--card);
+	padding: 2rem;
+	border-radius: var(--radius);
+	text-align: center;
+	transform: scale(0.9);
+	transition: 0.3s;
+}
+
+.modal.open .modal-card {
+	transform: scale(1);
+}
+
+@media (min-width: 640px) {
+	nav {
+		display: flex;
+	}
+	.burger {
+		display: none;
+	}
+}
