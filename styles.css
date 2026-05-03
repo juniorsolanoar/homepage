@@ -177,19 +177,54 @@ nav a:hover::after {
 
 .cards {
 	display: grid;
-	gap: 1rem;
+	grid-template-columns: 1fr;
+	gap: 20px;
 }
 
 .card {
 	background: var(--card);
-	padding: 1.5rem;
-	border-radius: var(--radius);
-	transition: 0.3s;
+	color: var(--text);
+	border-radius: 25px;
+	padding: 30px;
+	cursor: pointer;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	min-height: 150px;
+	transition:
+		transform 0.3s ease,
+		box-shadow 0.3s ease;
+	animation: slideUp 0.8s ease forwards;
 }
 
 .card:hover {
-	transform: translateY(-5px);
-	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+	transform: translateY(-8px) scale(1.02);
+	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.arrow {
+	align-self: flex-end;
+	font-size: 1.5rem;
+	transition: transform 0.3s ease;
+}
+
+.card:hover .arrow {
+	transform: translateX(8px);
+}
+
+.wide {
+	min-height: 180px;
+}
+
+/* Tablet */
+@media (min-width: 600px) {
+	.cards {
+		grid-template-columns: repeat(2, 1fr);
+	}
+
+	.wide {
+		grid-column: span 2;
+	}
 }
 
 footer {
@@ -246,5 +281,17 @@ footer {
 	}
 	.burger {
 		display: none;
+	}
+}
+
+/* Animaciones */
+@keyframes slideUp {
+	from {
+		opacity: 0;
+		transform: translateY(20px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
 	}
 }

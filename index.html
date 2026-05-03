@@ -13,10 +13,11 @@
 	</head>
 	<body>
 		<header>
-			<div class="logo" onclick="openModal()">MiMarca</div>
+			<div class="logo" onclick="openModal()">Junior Solano</div>
 
 			<nav>
 				<a href="about.html" class="btn">About me</a>
+				<a href="contact.html" class="btn">Contact</a>
 			</nav>
 
 			<div class="burger" id="burger" onclick="toggleMenu()">
@@ -26,22 +27,33 @@
 
 		<div class="mobile-menu" id="mobileMenu">
 			<a href="#about" class="btn">About me</a>
+			<a href="#contact" class="btn">Contact</a>
 		</div>
 
 		<section class="hero">
-			<h1>Construye algo increíble</h1>
-			<p>Landing moderna con animaciones premium.</p>
+			<h1>Construyendo algo increíble..!!!</h1>
+			<p>“Arquitecto de ideas, constructor de realidades.”</p>
 		</section>
 
 		<section class="section">
 			<div class="cards">
 				<div class="card">
-					<h3>Rápido</h3>
-					<p>Performance top.</p>
+					<div>
+						<h3>Rápido</h3>
+						<p>Performance top.</p>
+					</div>
+					<div class="arrow">→</div>
 				</div>
 				<div class="card">
-					<h3>UI</h3>
-					<p>Interacciones modernas.</p>
+					<div>
+						<h3>UI</h3>
+						<p>Interacciones modernas.</p>
+					</div>
+					<div class="arrow">→</div>
+				</div>
+				<div class="card wide">
+					<span>O vamos al modo Entrevista..!!</span>
+					<div class="arrow">→</div>
 				</div>
 			</div>
 		</section>
@@ -89,7 +101,7 @@
 
 			const now = new Date();
 			const options = { year: "numeric", month: "long" };
-			copyright.textContent = `© ${now.toLocaleDateString("es-ES", options)} MiMarca.`;
+			copyright.textContent = `© ${now.toLocaleDateString("es-ES", options)} - Junior Solano.`;
 
 			// Sistema de validación de páginas y redirección a 404
 			document.addEventListener("click", async (e) => {

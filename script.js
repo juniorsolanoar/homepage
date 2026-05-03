@@ -23,7 +23,7 @@ window.addEventListener("keydown", (e) => {
 
 const now = new Date();
 const options = { year: "numeric", month: "long" };
-copyright.textContent = `© ${now.toLocaleDateString("es-ES", options)} MiMarca.`;
+copyright.textContent = `© ${now.toLocaleDateString("es-ES", options)} - Junior Solano.`;
 
 // Sistema de validación de páginas y redirección a 404
 document.addEventListener("click", async (e) => {
