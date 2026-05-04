@@ -16,8 +16,8 @@
 			<div class="logo" onclick="openModal()">Junior Solano</div>
 
 			<nav>
-				<a href="about.html" class="btn">About me</a>
-				<a href="contact.html" class="btn">Contact</a>
+					<a href="about.html" class="btn">Sobre Mí</a>
+					<a href="contact.html" class="btn">Contacto</a>
 			</nav>
 
 			<div class="burger" id="burger" onclick="toggleMenu()">
@@ -26,42 +26,87 @@
 		</header>
 
 		<div class="mobile-menu" id="mobileMenu">
-			<a href="#about" class="btn">About me</a>
-			<a href="#contact" class="btn">Contact</a>
+			<a href="#about" class="btn">Sobre Mí</a>
+			<a href="#contact" class="btn">Contacto</a>
 		</div>
 
 		<section class="hero">
 			<h1>Construyendo algo increíble..!!!</h1>
-			<p>“Arquitecto de ideas, constructor de realidades.”</p>
+			<p><em>“Arquitecto de ideas, constructor de realidades.”</em></p>
 		</section>
 
 		<section class="section">
 			<div class="cards">
 				<div class="card">
-					<div>
-						<h3>Rápido</h3>
-						<p>Performance top.</p>
+					<div class="card-icon">
+						<!-- ícono: libro abierto -->
+						<svg
+							viewBox="0 0 24 24"
+							xmlns="http://www.w3.org/2000/svg"
+						>
+							<path
+								d="M12 21a1 1 0 01-.5-.13C10 19.91 7.5 19 5 19H4a1 1 0 01-1-1V5a1 1 0 011-1h1c2.74 0 5.4.9 7 2.28C13.6 4.9 16.26 4 19 4h1a1 1 0 011 1v13a1 1 0 01-1 1h-1c-2.5 0-5 .91-6.5 1.87A1 1 0 0112 21zm-7-4h.09C7.5 17 10 17.7 12 18.83V8.1C10.5 7.1 8.3 6.3 5 6.08V17zm14 0V6.08C16.7 6.3 14.5 7.1 13 8.1v10.73C15 17.7 17.5 17 19 17h.09z"
+							/>
+						</svg>
 					</div>
-					<div class="arrow">→</div>
+					<div>
+						<h3>¿Quieres aprender..?</h3>
+						<p>
+							Explora recursos, guías y proyectos prácticos para
+							crecer como desarrollador, a tu ritmo y desde cero.
+						</p>
+					</div>
+					<a href="aprendizaje.html" class="arrow btn-arrow"
+						>Ir a aprendizaje →</a
+					>
 				</div>
+
 				<div class="card">
-					<div>
-						<h3>UI</h3>
-						<p>Interacciones modernas.</p>
+					<div class="card-icon">
+						<!-- ícono: portafolio -->
+						<svg
+							viewBox="0 0 24 24"
+							xmlns="http://www.w3.org/2000/svg"
+						>
+							<path
+								d="M20 6h-2.18A3 3 0 0015 4H9a3 3 0 00-2.82 2H4a2 2 0 00-2 2v11a2 2 0 002 2h16a2 2 0 002-2V8a2 2 0 00-2-2zm-11 0h6a1 1 0 010 2H9a1 1 0 010-2zm-5 4h16v9H4v-9z"
+							/>
+						</svg>
 					</div>
-					<div class="arrow">→</div>
+					<div>
+						<h3>mira mis creaciones..!!</h3>
+						<p>
+							Proyectos reales que reflejan mi pasión por el
+							desarrollo y el diseño de interfaces.
+						</p>
+					</div>
+					<a href="portafolio.html" class="arrow btn-arrow"
+						>Ver portafolio →</a
+					>
 				</div>
-				<div class="card wide">
-					<span>O vamos al modo Entrevista..!!</span>
-					<div class="arrow">→</div>
+
+				<div class="card card-cta">
+					<h3 class="cta-title">
+						¿Listo para construir algo increíble?
+					</h3>
+					<p class="cta-sub">
+						Disponible para proyectos freelance y colaboraciones.
+					</p>
+					<div class="cta-btns">
+						<a href="contacto.html" class="cta-btn cta-primary"
+							>Contrátame</a
+						>
+						<a href="cv.html" class="cta-btn cta-secondary"
+							>Ver CV</a
+						>
+					</div>
 				</div>
 			</div>
 		</section>
 
 		<section id="contact" class="section">
-			<h2>Contact</h2>
-			<p style="color: var(--muted)">
-				<a href="constructor.html" class="">Hablemos 🚀</p></a>
+			
+			<h2 style="color: var(--muted)">				<a href="constructor.html" class="">Hablemos 🚀<h2/></a>
 		</section>
 
 		<footer><span id="copyright"></span></footer>
@@ -77,72 +122,6 @@
 			</div>
 		</div>
 
-		<script>
-			function toggleMenu() {
-				mobileMenu.classList.toggle("open");
-				burger.classList.toggle("active");
-			}
-
-			function openModal() {
-				modal.classList.add("open");
-			}
-			function closeModal() {
-				modal.classList.remove("open");
-			}
-
-			// easter egg "dev"
-			let typed = "";
-			window.addEventListener("keydown", (e) => {
-				typed += e.key.toLowerCase();
-				if (typed.includes("dev")) {
-					alert("Modo developer activado 😏");
-					typed = "";
-				}
-			});
-
-			const now = new Date();
-			const options = { year: "numeric", month: "long" };
-			copyright.textContent = `© ${now.toLocaleDateString("es-ES", options)} - Junior Solano.`;
-
-			// Sistema de validación de páginas y redirección a 404
-			document.addEventListener("click", async (e) => {
-				const link = e.target.closest("a");
-				if (!link) return;
-
-				const href = link.getAttribute("href");
-
-				// Solo validar enlaces externos (que terminan en .html)
-				// Ignorar enlaces internos (#), javascript:, y enlaces sin href
-				if (
-					!href ||
-					href.startsWith("#") ||
-					href.startsWith("javascript:") ||
-					href === "/" ||
-					href === ""
-				) {
-					return;
-				}
-
-				// Si es una página HTML, validar que exista
-				if (href.endsWith(".html")) {
-					e.preventDefault();
-
-					try {
-						const response = await fetch(href, { method: "HEAD" });
-
-						if (response.status === 404 || !response.ok) {
-							// Página no existe, redirigir a 404
-							window.location.href = "/404.html";
-						} else {
-							// Página existe, navegar normalmente
-							window.location.href = href;
-						}
-					} catch (error) {
-						// Si hay error en la solicitud, asumir que no existe y redirigir a 404
-						window.location.href = "/404.html";
-					}
-				}
-			});
-		</script>
+		<script src="script.js"></script>
 	</body>
 </html>
