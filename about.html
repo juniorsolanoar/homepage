@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="es">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Acerca de mí</title>
+		<link
+			href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap"
+			rel="stylesheet"
+		/>
+		<link rel="icon" href="assets/icon-dev.png" />
+		<link rel="stylesheet" href="about.css" />
+	</head>
+	<body>
+		<header class="site-header">
+			<div class="logo" onclick="openModal()">
+				<span>·</span> Junior Solano <span>·</span>
+			</div>
+			<nav class="nav-desktop">
+				<a href="index.html" class="btn">Inicio</a>
+				<a href="contact.html" class="btn">Contacto</a>
+			</nav>
+			<div
+				class="burger"
+				id="burger"
+				onclick="toggleMenu()"
+				aria-label="Abrir menú"
+				role="button"
+				tabindex="0"
+			>
+				<span></span><span></span><span></span>
+			</div>
+		</header>
+
+		<div
+			class="mobile-menu-overlay"
+			id="mobileMenuOverlay"
+			onclick="closeMenu()"
+		></div>
+		<div class="mobile-menu" id="mobileMenu" aria-hidden="true">
+			<button
+				class="mobile-close"
+				type="button"
+				onclick="closeMenu()"
+				aria-label="Cerrar menú"
+			>
+				✕ Cerrar
+			</button>
+			<a href="index.html" class="btn">Inicio</a>
+			<a href="contact.html" class="btn">Contacto</a>
+		</div>
+
+		<!-- HERO -->
+		<section class="hero">
+			<div class="hero-left">
+				<h1>
+					Desarrollador<br /><em>&amp; Asesor</em><br />Tecnológico
+				</h1>
+				<p class="hero-desc">
+					Transformo problemas en soluciones tecnológicas claras,
+					eficientes y aplicables.
+				</p>
+				<div class="hero-cta">
+					<a href="#servicios" class="btn btn-primary"
+						>Ver servicios</a
+					>
+					<a href="contact.html" class="btn">Contactar</a>
+				</div>
+			</div>
+			<div class="hero-right">
+				<div class="avatar-wrap">
+					<img
+						src="assets/me.jpeg"
+						alt="Junior Solano"
+						class="profile-img"
+					/>
+				</div>
+			</div>
+		</section>
+
+		<hr class="divider" />
+
+		<!-- HABILIDADES -->
+		<section class="section" id="habilidades">
+			<p class="section-label">Habilidades</p>
+			<div class="cards">
+				<div class="card">
+					<div class="card-icon">💻</div>
+					<h3>Desarrollo</h3>
+					<ul>
+						<li>Programación</li>
+						<li>Debugging</li>
+						<li>Lógica y algoritmos</li>
+						<li>Arquitectura de software</li>
+					</ul>
+				</div>
+				<div class="card">
+					<div class="card-icon">🧠</div>
+					<h3>Análisis</h3>
+					<ul>
+						<li>Resolución de problemas</li>
+						<li>Pensamiento crítico</li>
+						<li>Optimización de procesos</li>
+						<li>Decisiones técnicas</li>
+					</ul>
+				</div>
+				<div class="card">
+					<div class="card-icon">⚙️</div>
+					<h3>Asesoría</h3>
+					<ul>
+						<li>Identificación de necesidades</li>
+						<li>Recomendación de soluciones</li>
+						<li>Traducción técnico-negocio</li>
+						<li>Enfoque en usuario final</li>
+					</ul>
+				</div>
+			</div>
+		</section>
+
+		<hr class="divider" />
+
+		<!-- SERVICIOS -->
+		<section class="section" id="servicios">
+			<p class="section-label">Servicios</p>
+			<div class="cards">
+				<div class="card">
+					<div class="card-icon">🌐</div>
+					<h3>Desarrollo Web</h3>
+					<p>
+						Sitios y aplicaciones web funcionales, optimizadas y
+						adaptadas a necesidades reales.
+					</p>
+				</div>
+				<div class="card">
+					<div class="card-icon">🗺️</div>
+					<h3>Consultoría Tecnológica</h3>
+					<p>
+						Asesoría para elegir herramientas y tecnologías según
+						objetivos y contexto.
+					</p>
+				</div>
+				<div class="card">
+					<div class="card-icon">⚡</div>
+					<h3>Optimización</h3>
+					<p>
+						Mejora de procesos, sistemas o flujos digitales para
+						aumentar eficiencia y reducir fricción.
+					</p>
+				</div>
+			</div>
+		</section>
+
+		<hr class="divider" />
+
+		<!-- EXPERIENCIA -->
+		<section class="section" id="experiencia">
+			<p class="section-label">Experiencia</p>
+			<div class="timeline">
+				<div class="timeline-item">
+					<h4>Desarrollo de software &amp; consultoría</h4>
+					<p>
+						Diseño, arquitectura y desarrollo de soluciones.
+						Orientación a clientes sobre decisiones tecnológicas,
+						priorizando eficiencia y resultados concretos.
+					</p>
+				</div>
+				<div class="timeline-item">
+					<h4>Análisis de requerimientos</h4>
+					<p>
+						Detección de oportunidades de mejora, propuesta de
+						herramientas y sistemas que generan valor real. Actuando
+						como puente entre lo técnico y lo práctico.
+					</p>
+				</div>
+				<div class="timeline-item">
+					<h4>Ventas &amp; servicio al cliente</h4>
+					<p>
+						Origen que evolucionó hacia un enfoque más estratégico:
+						entender problemas y conectar soluciones tecnológicas
+						con necesidades reales.
+					</p>
+				</div>
+			</div>
+			<div class="tags">
+				<span class="tag">JavaScript</span>
+				<span class="tag">HTML / CSS</span>
+				<span class="tag">Análisis técnico</span>
+				<span class="tag">Consultoría</span>
+				<span class="tag">UX / Usabilidad</span>
+			</div>
+		</section>
+
+		<footer class="site-footer">
+			<span id="copyright"></span>
+			<div class="footer-links">
+				<a href="https://github.com/" target="_blank">GitHub</a>
+				<a href="https://linkedin.com/" target="_blank">LinkedIn</a>
+				<a href="contact.html">Contacto</a>
+			</div>
+		</footer>
+
+		<!-- MODAL (easter egg) -->
+		<div class="modal" id="modal" onclick="closeModal()">
+			<div class="modal-card" onclick="event.stopPropagation()">
+				<h3>Hey 😎</h3>
+				<p>Este sitio compila sin errores... mi vida no ;-)</p>
+				<a href="#" class="btn btn-primary" onclick="closeModal()"
+					>Cerrar</a
+				>
+			</div>
+		</div>
+
+		<script src="script.js"></script>
+	</body>
+</html>

@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Junior Solano´s official Website</title>
+		<title>Junior Solano´s O fficial Website</title>
 		<link
 			href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap"
 			rel="stylesheet"
@@ -13,21 +13,48 @@
 	</head>
 	<body>
 		<header>
-			<div class="logo" onclick="openModal()">🧑‍💻 Junior Solano 💡</div>
+			<div class="logo" onclick="openModal()">
+				🧑‍💻 Junior Solano
+
+				<a href="constructor.html" class=""> 🚀</a>
+
+				💡
+			</div>
 
 			<nav>
 				<a href="about.html" class="btn">🙋‍♂️ Sobre Mí 💭</a>
-				<a href="contact.html" class="btn">Contacto 📞</a>
+				<a href="contact.html" class="btn">📧 Contacto 📞</a>
 			</nav>
 
-			<div class="burger" id="burger" onclick="toggleMenu()">
+			<div
+				class="burger"
+				id="burger"
+				onclick="toggleMenu()"
+				aria-label="Abrir menú"
+				role="button"
+				tabindex="0"
+			>
 				<span></span><span></span><span></span>
 			</div>
 		</header>
 
-		<div class="mobile-menu" id="mobileMenu">
-			<a href="#about" class="btn">🙋‍♂️ Sobre Mí 💭</a>
-			<a href="#contact" class="btn">Contacto 📞</a>
+		<div
+			class="mobile-menu-overlay"
+			id="mobileMenuOverlay"
+			onclick="closeMenu()"
+		></div>
+
+		<div class="mobile-menu" id="mobileMenu" aria-hidden="true">
+			<button
+				class="mobile-close"
+				type="button"
+				onclick="closeMenu()"
+				aria-label="Cerrar menú"
+			>
+				✕ Cerrar
+			</button>
+			<a href="about.html" class="btn">🙋‍♂️ Sobre Mí 💭</a>
+			<a href="contact.html" class="btn">📧 Contacto 📞</a>
 		</div>
 
 		<section class="hero">
@@ -93,23 +120,19 @@
 						Disponible para proyectos freelance y colaboraciones.
 					</p>
 					<div class="cta-btns">
+						<a href="tutorias.html" class="cta-btn cta-default"
+							>🤓 Tutorías 🎓</a
+						>
 						<a href="contacto.html" class="cta-btn cta-primary"
-							>Contrátame 🧑‍💻</a
+							>🤝 Contrátame 🧑‍💻</a
 						>
 						<a href="cv.html" class="cta-btn cta-secondary"
-							>Ver CV 📃</a
+							>📇 Ver CV 📃</a
 						>
 					</div>
 				</div>
 			</div>
 		</section>
-
-		<!-- Sección de contacto 
-		<section id="contact" class="section">
-			
-			<h2 style="color: var(--muted)">				<a href="constructor.html" class="">Hablemos 🚀<h2/></a>
-		</section>
-	-->
 
 		<footer><span id="copyright"></span></footer>
 

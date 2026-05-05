@@ -4,10 +4,33 @@
 
 function toggleMenu() {
 	const mobileMenu = document.getElementById("mobileMenu");
+	const mobileOverlay = document.getElementById("mobileMenuOverlay");
 	const burger = document.getElementById("burger");
 	mobileMenu.classList.toggle("open");
+	mobileOverlay.classList.toggle("open");
 	burger.classList.toggle("active");
+	document.body.classList.toggle("menu-open");
 }
+
+function closeMenu() {
+	const mobileMenu = document.getElementById("mobileMenu");
+	const mobileOverlay = document.getElementById("mobileMenuOverlay");
+	const burger = document.getElementById("burger");
+	mobileMenu.classList.remove("open");
+	mobileOverlay.classList.remove("open");
+	burger.classList.remove("active");
+	document.body.classList.remove("menu-open");
+}
+
+document.querySelectorAll(".mobile-menu a").forEach((link) => {
+	link.addEventListener("click", closeMenu);
+});
+
+window.addEventListener("keydown", (event) => {
+	if (event.key === "Escape") {
+		closeMenu();
+	}
+});
 
 /* ══════════════════════════════════════════════════════════════════════════════
    MODAL

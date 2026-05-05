@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="es">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Junior Solano - Constructor</title>
+		<link
+			href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap"
+			rel="stylesheet"
+		/>
+		<link rel="icon" href="assets/icon-dev.png" />
+		<link rel="stylesheet" href="styles.css" />
+	</head>
+	<body>
+		<header>
+			<div class="logo" onclick="openModal()">🧑‍💻 Junior Solano 💡</div>
+
+			<nav>
+				<a href="index.html" class="btn">🏠 Inicio</a>
+				<a href="contact.html" class="btn">📧 Contacto 📞</a>
+			</nav>
+
+			<div
+				class="burger"
+				id="burger"
+				onclick="toggleMenu()"
+				aria-label="Abrir menú"
+				role="button"
+				tabindex="0"
+			>
+				<span></span><span></span><span></span>
+			</div>
+		</header>
+
+		<div
+			class="mobile-menu-overlay"
+			id="mobileMenuOverlay"
+			onclick="closeMenu()"
+		></div>
+
+		<div class="mobile-menu" id="mobileMenu" aria-hidden="true">
+			<button
+				class="mobile-close"
+				type="button"
+				onclick="closeMenu()"
+				aria-label="Cerrar menú"
+			>
+				✕ Cerrar
+			</button>
+			<a href="index.html" class="btn">🏠 Inicio</a>
+			<a href="contact.html" class="btn">📧 Contacto 📞</a>
+		</div>
+
+		<section class="hero">
+			<div class="hero-content">
+				<h1>3>Desarrollador & Asesor</h1>
+				<p>
+					<em
+						>Transformo problemas en soluciones tecnológicas claras,
+						eficientes y aplicables.</em
+					>
+				</p>
+			</div>
+			<div class="hero-body">
+				<div class="about-image">
+					<img
+						src="assets/me.jpeg"
+						alt="profile"
+						class="profile-img"
+					/>
+				</div>
+				<div class="about-text">
+					<p class="about-subtitle">
+						Enfocado en crear soluciones útiles y eficientes.
+					</p>
+					<p class="about-description">
+						Me dedico a analizar problemas, diseñar soluciones y
+						traducir necesidades reales en sistemas funcionales.
+						Combino habilidades técnicas con una visión estratégica
+						para ayudar a personas y negocios a tomar mejores
+						decisiones tecnológicas.
+					</p>
+					<p class="about-description">
+						No solo construyo software, también oriento sobre qué
+						construir, por qué hacerlo y cómo hacerlo de forma
+						efectiva.
+					</p>
+				</div>
+			</div>
+		</section>
+
+		<section class="section">
+			<h2>Habilidades</h2>
+			<div class="cards">
+				<div class="card">
+					<h3>💻 Desarrollo</h3>
+					<ul
+						style="
+							text-align: left;
+							margin-top: 1rem;
+							color: var(--muted);
+							list-style: none;
+						"
+					>
+						<li>✓ Programación</li>
+						<li>✓ Debugging</li>
+						<li>✓ Lógica y algoritmos</li>
+						<li>✓ Arquitectura básica de software</li>
+					</ul>
+				</div>
+
+				<div class="card">
+					<h3>🧠 Análisis</h3>
+					<ul
+						style="
+							text-align: left;
+							margin-top: 1rem;
+							color: var(--muted);
+							list-style: none;
+						"
+					>
+						<li>✓ Resolución de problemas</li>
+						<li>✓ Pensamiento crítico</li>
+						<li>✓ Optimización de procesos</li>
+						<li>✓ Toma de decisiones técnicas</li>
+					</ul>
+				</div>
+
+				<div class="card">
+					<h3>⚙️ Asesoría Tecnológica</h3>
+					<ul
+						style="
+							text-align: left;
+							margin-top: 1rem;
+							color: var(--muted);
+							list-style: none;
+						"
+					>
+						<li>✓ Identificación de necesidades</li>
+						<li>✓ Recomendación de soluciones</li>
+						<li>✓ Traducción técnico-negocio</li>
+						<li>✓ Enfoque en usuario final</li>
+					</ul>
+				</div>
+			</div>
+		</section>
+
+		<section class="section">
+			<h2>Servicios</h2>
+			<div class="cards">
+				<div class="card">
+					<h3>💻 Desarrollo Web</h3>
+					<p style="margin-top: 0.8rem">
+						Creación de sitios y aplicaciones web funcionales,
+						optimizadas y adaptadas a necesidades reales.
+					</p>
+				</div>
+
+				<div class="card">
+					<h3>⚙️ Consultoría Tecnológica</h3>
+					<p style="margin-top: 0.8rem">
+						Asesoría para elegir herramientas, tecnologías y
+						enfoques adecuados según objetivos y contexto.
+					</p>
+				</div>
+
+				<div class="card">
+					<h3>🚀 Optimización</h3>
+					<p style="margin-top: 0.8rem">
+						Mejora de procesos, sistemas o flujos digitales para
+						aumentar eficiencia y reducir fricción.
+					</p>
+				</div>
+			</div>
+		</section>
+
+		<section class="section">
+			<h2>Experiencia</h2>
+			<div class="card" style="max-width: 720px; margin: 0 auto">
+				<p style="line-height: 1.8; margin-bottom: 1.2rem">
+					Mi experiencia en ventas y servicio al cliente evolucionó
+					hacia un enfoque más estratégico: entender problemas y
+					conectar soluciones tecnológicas con necesidades reales.
+				</p>
+
+				<p style="line-height: 1.8; margin-bottom: 1.2rem">
+					He desarrollado la capacidad de analizar requerimientos,
+					detectar oportunidades de mejora y proponer herramientas o
+					sistemas que generen valor. Esto me permite actuar como
+					puente entre lo técnico y lo práctico.
+				</p>
+
+				<p style="line-height: 1.8">
+					Hoy aplico esa experiencia en el desarrollo de software,
+					donde no solo escribo código, sino que también asesoro sobre
+					decisiones tecnológicas, priorizando eficiencia, claridad y
+					resultados.
+				</p>
+			</div>
+		</section>
+
+		<footer><span id="copyright"></span></footer>
+
+		<!-- MODAL -->
+		<div class="modal" id="modal" onclick="closeModal()">
+			<div class="modal-card" onclick="event.stopPropagation()">
+				<h3>Hey 😎</h3>
+				<p style="color: var(--muted); margin: 10px 0">
+					Este sitio compila sin errores... mi vida no ;-)
+				</p>
+				<a href="#" class="btn">Ver algo más cool</a>
+			</div>
+		</div>
+
+		<script src="script.js"></script>
+	</body>
+</html>
