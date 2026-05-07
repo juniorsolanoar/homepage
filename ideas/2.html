@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="es">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Ultra Pro Social Buttons</title>
+
+		<style>
+			:root {
+				--bg: #0a0f0d;
+			}
+
+			body {
+				background: radial-gradient(
+					circle at 50% 50%,
+					#0f1f17,
+					#050807
+				);
+				height: 100vh;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				margin: 0;
+				font-family: sans-serif;
+				overflow: hidden;
+			}
+
+			/* CONTENEDOR */
+			.hero-cta {
+				display: flex;
+				gap: 30px;
+			}
+
+			/* BOTÓN BASE */
+			.social-btn {
+				width: 80px;
+				height: 80px;
+				border-radius: 50%;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				position: relative;
+				cursor: pointer;
+				color: var(--neon);
+				border: 2px solid var(--neon);
+				transition: transform 0.2s ease;
+			}
+
+			/* SVG */
+			.social-btn svg {
+				width: 32px;
+				height: 32px;
+				fill: currentColor;
+				pointer-events: none;
+				filter: drop-shadow(0 0 8px currentColor);
+			}
+
+			/* GLOW LAYERS */
+			.social-btn::before,
+			.social-btn::after {
+				content: "";
+				position: absolute;
+				inset: 0;
+				border-radius: 50%;
+				opacity: 0;
+				transition: 0.3s;
+			}
+
+			.social-btn::before {
+				box-shadow: 0 0 20px var(--neon);
+			}
+
+			.social-btn::after {
+				box-shadow: 0 0 60px var(--neon);
+			}
+
+			/* HOVER */
+			.social-btn:hover::before {
+				opacity: 1;
+			}
+			.social-btn:hover::after {
+				opacity: 0.6;
+			}
+
+			/* RIPPLE */
+			.ripple {
+				position: absolute;
+				border-radius: 50%;
+				transform: scale(0);
+				background: currentColor;
+				opacity: 0.4;
+				pointer-events: none;
+				animation: rippleAnim 0.6s linear;
+			}
+
+			@keyframes rippleAnim {
+				to {
+					transform: scale(3);
+					opacity: 0;
+				}
+			}
+
+			/* COLORES */
+			.fb {
+				--neon: #1877f2;
+			}
+			.wa {
+				--neon: #25d366;
+			}
+			.ig {
+				--neon: #e4405f;
+			}
+			.gh {
+				--neon: #ffffff;
+			}
+
+			/* CURSOR MAGNÉTICO */
+			.social-btn {
+				will-change: transform;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="hero-cta">
+			<a class="social-btn fb">
+				<svg viewBox="0 0 24 24">
+					<path
+						d="M13 22v-9h3l1-4h-4V7c0-1 0-2 2-2h2V1h-3c-4 0-5 2-5 5v3H6v4h3v9z"
+					/>
+				</svg>
+			</a>
+
+			<a class="social-btn wa">
+				<svg viewBox="0 0 24 24">
+					<path
+						d="M20 3.5A11.9 11.9 0 0012 0 12 12 0 002 18l-2 6 6-2a12 12 0 0014-18.5z"
+					/>
+				</svg>
+			</a>
+
+			<a class="social-btn ig">
+				<svg viewBox="0 0 24 24">
+					<path
+						d="M7 2C4 2 2 4 2 7v10c0 3 2 5 5 5h10c3 0 5-2 5-5V7c0-3-2-5-5-5H7z"
+					/>
+				</svg>
+			</a>
+
+			<a class="social-btn gh">
+				<svg viewBox="0 0 24 24">
+					<path d="M12 0a12 12 0 00-4 23" />
+				</svg>
+			</a>
+		</div>
+
+		<script>
+			const buttons = document.querySelectorAll(".social-btn");
+
+			/* MAGNET EFFECT */
+			buttons.forEach((btn) => {
+				btn.addEventListener("mousemove", (e) => {
+					const rect = btn.getBoundingClientRect();
+					const x = e.clientX - rect.left - rect.width / 2;
+					const y = e.clientY - rect.top - rect.height / 2;
+
+					btn.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px) scale(1.1)`;
+				});
+
+				btn.addEventListener("mouseleave", () => {
+					btn.style.transform = "translate(0,0) scale(1)";
+				});
+			});
+
+			/* RIPPLE EFFECT */
+			buttons.forEach((btn) => {
+				btn.addEventListener("click", (e) => {
+					const circle = document.createElement("span");
+					circle.classList.add("ripple");
+
+					const rect = btn.getBoundingClientRect();
+					const size = Math.max(rect.width, rect.height);
+
+					circle.style.width = circle.style.height = size + "px";
+					circle.style.left = e.clientX - rect.left - size / 2 + "px";
+					circle.style.top = e.clientY - rect.top - size / 2 + "px";
+
+					btn.appendChild(circle);
+
+					setTimeout(() => circle.remove(), 600);
+				});
+			});
+		</script>
+	</body>
+</html>

@@ -1,0 +1,504 @@
+<!doctype html>
+<html lang="es">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+		<title>Startup Unicorn UI</title>
+
+		<style>
+			:root {
+				--bg: #050816;
+				--panel: #0f172a;
+				--text: #e2e8f0;
+				--muted: #94a3b8;
+			}
+
+			* {
+				margin: 0;
+				padding: 0;
+				box-sizing: border-box;
+			}
+
+			html,
+			body {
+				width: 100%;
+				height: 100%;
+				font-family: Inter, sans-serif;
+				background: var(--bg);
+				overflow: hidden;
+				color: var(--text);
+			}
+
+			/* ===============================
+   DYNAMIC BACKGROUND
+================================= */
+
+			.bg-grid {
+				position: fixed;
+				inset: 0;
+
+				background-image:
+					linear-gradient(
+						rgba(255, 255, 255, 0.03) 1px,
+						transparent 1px
+					),
+					linear-gradient(
+						90deg,
+						rgba(255, 255, 255, 0.03) 1px,
+						transparent 1px
+					);
+
+				background-size: 40px 40px;
+
+				mask-image: radial-gradient(
+					circle at center,
+					black 20%,
+					transparent 80%
+				);
+				z-index: -5;
+			}
+
+			/* FLOATING LIGHTS */
+
+			.orb {
+				position: absolute;
+				border-radius: 50%;
+				filter: blur(90px);
+				opacity: 0.55;
+				animation: float 12s ease-in-out infinite;
+			}
+
+			.orb.one {
+				width: 320px;
+				height: 320px;
+				background: #00f0ff;
+				top: -100px;
+				left: -100px;
+			}
+
+			.orb.two {
+				width: 280px;
+				height: 280px;
+				background: #8b5cf6;
+				bottom: -120px;
+				right: -60px;
+				animation-delay: 2s;
+			}
+
+			.orb.three {
+				width: 220px;
+				height: 220px;
+				background: #ff0080;
+				top: 40%;
+				left: 50%;
+				animation-delay: 5s;
+			}
+
+			@keyframes float {
+				0%,
+				100% {
+					transform: translateY(0px) translateX(0px);
+				}
+				50% {
+					transform: translateY(-40px) translateX(20px);
+				}
+			}
+
+			/* ===============================
+   CUSTOM CURSOR
+================================= */
+
+			.cursor {
+				width: 22px;
+				height: 22px;
+				border: 2px solid white;
+				border-radius: 50%;
+				position: fixed;
+				top: 0;
+				left: 0;
+				pointer-events: none;
+				transform: translate(-50%, -50%);
+				z-index: 9999;
+				mix-blend-mode: difference;
+				transition:
+					width 0.2s ease,
+					height 0.2s ease,
+					background 0.2s ease;
+			}
+
+			.cursor.active {
+				width: 60px;
+				height: 60px;
+				background: rgba(255, 255, 255, 0.1);
+			}
+
+			/* ===============================
+   HERO
+================================= */
+
+			.hero {
+				height: 100vh;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				justify-content: center;
+				text-align: center;
+				padding: 2rem;
+				position: relative;
+			}
+
+			.badge {
+				padding: 0.6rem 1rem;
+				border: 1px solid rgba(255, 255, 255, 0.12);
+				border-radius: 999px;
+				background: rgba(255, 255, 255, 0.04);
+				backdrop-filter: blur(12px);
+				font-size: 0.8rem;
+				color: #cbd5e1;
+				margin-bottom: 1.5rem;
+				animation: fadeUp 0.7s ease;
+			}
+
+			.hero h1 {
+				font-size: clamp(3rem, 8vw, 7rem);
+				line-height: 0.9;
+				font-weight: 800;
+				letter-spacing: -4px;
+
+				background: linear-gradient(
+					135deg,
+					#ffffff 0%,
+					#8be9fd 30%,
+					#c084fc 60%,
+					#ff79c6 100%
+				);
+
+				-webkit-background-clip: text;
+				-webkit-text-fill-color: transparent;
+
+				animation: fadeUp 0.8s ease;
+			}
+
+			.hero p {
+				max-width: 720px;
+				margin-top: 1.5rem;
+				font-size: 1.1rem;
+				line-height: 1.8;
+				color: var(--muted);
+
+				animation: fadeUp 1s ease;
+			}
+
+			/* ===============================
+   BUTTONS
+================================= */
+
+			.actions {
+				display: flex;
+				gap: 24px;
+				margin-top: 3rem;
+				flex-wrap: wrap;
+				justify-content: center;
+			}
+
+			/* ULTRA BUTTON */
+
+			.social-btn {
+				position: relative;
+
+				width: 90px;
+				height: 90px;
+
+				border-radius: 28px;
+
+				display: flex;
+				align-items: center;
+				justify-content: center;
+
+				text-decoration: none;
+
+				border: 1px solid rgba(255, 255, 255, 0.12);
+
+				background: linear-gradient(
+					145deg,
+					rgba(255, 255, 255, 0.06),
+					rgba(255, 255, 255, 0.02)
+				);
+
+				backdrop-filter: blur(18px);
+
+				overflow: hidden;
+
+				transition:
+					transform 0.18s ease,
+					border-color 0.3s ease,
+					box-shadow 0.3s ease;
+
+				will-change: transform;
+			}
+
+			/* HOLOGRAPHIC LIGHT */
+
+			.social-btn::before {
+				content: "";
+				position: absolute;
+				inset: -40%;
+
+				background: conic-gradient(
+					from 0deg,
+					transparent,
+					var(--clr),
+					transparent 30%
+				);
+
+				animation: spin 5s linear infinite;
+
+				opacity: 0.5;
+			}
+
+			/* INNER GLASS */
+
+			.social-btn::after {
+				content: "";
+				position: absolute;
+				inset: 1px;
+
+				background: rgba(5, 8, 22, 0.88);
+
+				border-radius: 26px;
+			}
+
+			/* SVG */
+
+			.social-btn svg {
+				position: relative;
+				z-index: 2;
+
+				width: 34px;
+				height: 34px;
+
+				fill: white;
+
+				filter: drop-shadow(0 0 8px var(--clr))
+					drop-shadow(0 0 16px var(--clr));
+
+				transition:
+					transform 0.25s ease,
+					filter 0.3s ease;
+			}
+
+			/* HOVER */
+
+			.social-btn:hover {
+				transform: translateY(-8px) scale(1.08);
+
+				box-shadow:
+					0 10px 30px rgba(0, 0, 0, 0.35),
+					0 0 20px var(--clr),
+					0 0 50px var(--clr);
+			}
+
+			.social-btn:hover svg {
+				transform: scale(1.15) rotate(6deg);
+
+				filter: drop-shadow(0 0 12px var(--clr))
+					drop-shadow(0 0 30px var(--clr));
+			}
+
+			/* COLORS */
+
+			.fb {
+				--clr: #1877f2;
+			}
+			.ig {
+				--clr: #ff2d75;
+			}
+			.gh {
+				--clr: #ffffff;
+			}
+			.li {
+				--clr: #0a66c2;
+			}
+
+			/* ===============================
+   PARTICLES
+================================= */
+
+			.particle {
+				position: absolute;
+				width: 3px;
+				height: 3px;
+				background: white;
+				border-radius: 50%;
+				opacity: 0.4;
+				animation: particleFloat linear infinite;
+			}
+
+			@keyframes particleFloat {
+				from {
+					transform: translateY(100vh);
+				}
+				to {
+					transform: translateY(-10vh);
+				}
+			}
+
+			/* ===============================
+   ANIMATIONS
+================================= */
+
+			@keyframes spin {
+				to {
+					transform: rotate(360deg);
+				}
+			}
+
+			@keyframes fadeUp {
+				from {
+					opacity: 0;
+					transform: translateY(40px);
+				}
+				to {
+					opacity: 1;
+					transform: translateY(0);
+				}
+			}
+
+			/* ===============================
+   RESPONSIVE
+================================= */
+
+			@media (max-width: 768px) {
+				.actions {
+					gap: 16px;
+				}
+
+				.social-btn {
+					width: 78px;
+					height: 78px;
+					border-radius: 22px;
+				}
+
+				.social-btn::after {
+					border-radius: 20px;
+				}
+
+				.hero p {
+					font-size: 1rem;
+				}
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="bg-grid"></div>
+
+		<div class="orb one"></div>
+		<div class="orb two"></div>
+		<div class="orb three"></div>
+
+		<div class="cursor"></div>
+
+		<section class="hero">
+			<div class="badge">⚡ Startup UI • Futuristic Interface</div>
+
+			<h1>Build the Future</h1>
+
+			<p>
+				Interfaces diseñadas para transmitir tecnología, estatus y
+				experiencia premium. Motion design, interacciones físicas y
+				estética futurista.
+			</p>
+
+			<div class="actions">
+				<a href="#" class="social-btn fb">
+					<svg viewBox="0 0 24 24">
+						<path
+							d="M13 22v-9h3l1-4h-4V7c0-1 0-2 2-2h2V1h-3c-4 0-5 2-5 5v3H6v4h3v9z"
+						/>
+					</svg>
+				</a>
+
+				<a href="#" class="social-btn ig">
+					<svg viewBox="0 0 24 24">
+						<path
+							d="M7 2C4 2 2 4 2 7v10c0 3 2 5 5 5h10c3 0 5-2 5-5V7c0-3-2-5-5-5H7z"
+						/>
+					</svg>
+				</a>
+
+				<a href="#" class="social-btn gh">
+					<svg viewBox="0 0 24 24">
+						<path d="M12 0a12 12 0 00-4 23" />
+					</svg>
+				</a>
+
+				<a href="#" class="social-btn li">
+					<svg viewBox="0 0 24 24">
+						<path
+							d="M4 3a2 2 0 100 4 2 2 0 000-4zm1 5H3v13h2V8zm4 0h2v2h.1c.3-.6 1.2-1.3 2.5-1.3 2.7 0 3.2 1.7 3.2 4v8.3h-2V13c0-1.6 0-3.5-2.1-3.5s-2.5 1.6-2.5 3.3v8.2H9V8z"
+						/>
+					</svg>
+				</a>
+			</div>
+		</section>
+
+		<script>
+			/* =========================
+   CUSTOM CURSOR
+========================= */
+
+			const cursor = document.querySelector(".cursor");
+
+			window.addEventListener("mousemove", (e) => {
+				cursor.style.top = e.clientY + "px";
+				cursor.style.left = e.clientX + "px";
+			});
+
+			/* =========================
+   MAGNETIC BUTTONS
+========================= */
+
+			const buttons = document.querySelectorAll(".social-btn");
+
+			buttons.forEach((btn) => {
+				btn.addEventListener("mousemove", (e) => {
+					const rect = btn.getBoundingClientRect();
+
+					const x = e.clientX - rect.left - rect.width / 2;
+					const y = e.clientY - rect.top - rect.height / 2;
+
+					btn.style.transform = `translate(${x * 0.22}px, ${y * 0.22}px)
+			 scale(1.08)`;
+
+					cursor.classList.add("active");
+				});
+
+				btn.addEventListener("mouseleave", () => {
+					btn.style.transform = "";
+
+					cursor.classList.remove("active");
+				});
+			});
+
+			/* =========================
+   PARTICLES
+========================= */
+
+			for (let i = 0; i < 45; i++) {
+				const p = document.createElement("div");
+
+				p.classList.add("particle");
+
+				p.style.left = Math.random() * 100 + "vw";
+
+				p.style.animationDuration = 6 + Math.random() * 10 + "s";
+
+				p.style.animationDelay = Math.random() * 5 + "s";
+
+				document.body.appendChild(p);
+			}
+		</script>
+	</body>
+</html>

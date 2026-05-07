@@ -1,6 +1,4 @@
-/* ══════════════════════════════════════════════════════════════════════════════
-   VARIABLES & RESET
-   ═════════════════════════════════════════════════════════════════════════════ */
+/* ═════ VARIABLES & RESET ═════ */
 :root {
 	--bg: #0a0f0d;
 	--card: rgba(30, 50, 40, 0.6);
@@ -116,6 +114,7 @@ body::before {
 	font-weight: 700;
 	color: var(--primary);
 	font-size: 1rem;
+	text-decoration: none;
 }
 
 .logo span {
@@ -129,32 +128,132 @@ body::before {
 	gap: 1rem;
 }
 
-.btn {
-	background: var(--gradient);
-	padding: 0.6rem 1rem;
-	border-radius: 999px;
-	color: #000000;
-	text-decoration: none;
-	transition: 0.3s;
-	border: none;
+/* CONTENEDOR */
+.hero-cta {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 30px;
+	justify-content: center;
+}
+
+/* BOTÓN BASE */
+.social-btn {
+	width: 80px;
+	height: 80px;
+	border-radius: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: relative;
 	cursor: pointer;
-	font-weight: 600;
-	font-size: 0.9rem;
-	display: inline-block;
+	color: var(--neon);
+	border: 2px solid var(--neon);
+	transition: transform 0.2s ease;
 }
 
-.btn:hover {
-	box-shadow: 0 0 20px rgba(16, 185, 129, 0.6);
+/* SVG */
+.social-btn svg {
+	width: 32px;
+	height: 32px;
+	fill: currentColor;
+	pointer-events: none;
+	filter: drop-shadow(0 0 8px currentColor);
 }
 
-.btn-primary {
-	background: var(--gradient);
-	color: #000000;
-	font-weight: 700;
+/* GLOW LAYERS */
+.social-btn::before,
+.social-btn::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	border-radius: 50%;
+	opacity: 0;
+	transition: 0.3s;
 }
 
-.btn-primary:hover {
-	box-shadow: 0 0 20px rgba(16, 185, 129, 0.6);
+.social-btn::before {
+	box-shadow: 0 0 20px var(--neon);
+}
+
+.social-btn::after {
+	box-shadow: 0 0 60px var(--neon);
+}
+
+/* HOVER */
+.social-btn:hover::before {
+	opacity: 1;
+}
+.social-btn:hover::after {
+	opacity: 0.6;
+}
+
+/* RIPPLE */
+.ripple {
+	position: absolute;
+	border-radius: 50%;
+	transform: scale(0);
+	background: currentColor;
+	opacity: 0.4;
+	pointer-events: none;
+	animation: rippleAnim 0.6s linear;
+}
+
+@keyframes rippleAnim {
+	to {
+		transform: scale(3);
+		opacity: 0;
+	}
+}
+
+/* COLORES */
+.fb {
+	--neon: #1877f2;
+}
+.wa {
+	--neon: #25d366;
+}
+.ig {
+	--neon: #e4405f;
+}
+.li {
+	--neon: #0077b5;
+}
+.tt {
+	--neon: #ff0050;
+}
+.yt {
+	--neon: #ff0000;
+}
+.mail {
+	--neon: #ea4335;
+}
+.gh {
+	--neon: #ffffff;
+}
+
+/* CURSOR MAGNÉTICO */
+.social-btn {
+	will-change: transform;
+}
+
+/* RESPONSIVE MOBILE */
+@media (max-width: 768px) {
+	.social-btn {
+		width: 40px;
+		height: 40px;
+	}
+
+	.social-btn svg {
+		width: 16px;
+		height: 16px;
+	}
+
+	.hero-cta {
+		gap: 10px;
+		max-width: 190px;
+		margin: 0 auto;
+		justify-content: center;
+	}
 }
 
 /* ══════════════════════════════════════════════════════════════════════════════
@@ -282,9 +381,7 @@ body.menu-open {
 	}
 }
 
-/* ══════════════════════════════════════════════════════════════════════════════
-   HERO SECTION
-   ═════════════════════════════════════════════════════════════════════════════ */
+/* HERO SECTION  */
 .hero {
 	display: grid;
 	grid-template-columns: 1fr;
@@ -331,8 +428,8 @@ body.menu-open {
 }
 
 .avatar-wrap {
-	width: 240px;
-	height: 240px;
+	width: 862.5px;
+	height: 862.5px;
 	border-radius: 50%;
 	overflow: hidden;
 	border: 2px solid rgba(46, 204, 154, 0.3);
@@ -383,19 +480,9 @@ body.menu-open {
 	}
 
 	.avatar-wrap {
-		width: 280px;
-		height: 280px;
+		width: 402.5px;
+		height: 402.5px;
 	}
-}
-
-/* ══════════════════════════════════════════════════════════════════════════════
-   DIVIDER
-   ═════════════════════════════════════════════════════════════════════════════ */
-.divider {
-	border: none;
-	border-top: 1px solid rgba(46, 204, 154, 0.15);
-	max-width: 900px;
-	margin: 2rem auto;
 }
 
 /* ══════════════════════════════════════════════════════════════════════════════
@@ -952,30 +1039,6 @@ body {
 	font-size: 14px;
 }
 
-.hero-right {
-	display: flex;
-	justify-content: center;
-}
-
-.avatar-wrap {
-	width: 240px;
-	height: 240px;
-	border-radius: 50%;
-	overflow: hidden;
-	border: 0.5px solid var(--border);
-	background: var(--bg-secondary);
-	display: flex;
-	align-items: center;
-	justify-content: center;
-}
-
-.profile-img {
-	width: 100%;
-	height: 100%;
-	object-fit: cover;
-	display: block;
-}
-
 /* ==========================================
    DIVIDER
    ========================================== */
@@ -1159,46 +1222,6 @@ body {
 }
 
 /* ==========================================
-   MODAL
-   ========================================== */
-.modal {
-	display: none;
-	position: fixed;
-	inset: 0;
-	background: rgba(0, 0, 0, 0.4);
-	z-index: 500;
-	align-items: center;
-	justify-content: center;
-}
-
-.modal.open {
-	display: flex;
-}
-
-.modal-card {
-	background: var(--bg);
-	border: 0.5px solid var(--border-strong);
-	border-radius: var(--radius-md);
-	padding: 2rem 2.5rem;
-	max-width: 340px;
-	width: 90%;
-	text-align: center;
-}
-
-.modal-card h3 {
-	font-family: var(--font-serif);
-	font-size: 22px;
-	font-weight: 400;
-	margin-bottom: 0.75rem;
-}
-
-.modal-card p {
-	font-size: 14px;
-	color: var(--text-muted);
-	margin-bottom: 1.5rem;
-}
-
-/* ==========================================
    ANIMATIONS
    ========================================== */
 @keyframes fadeUp {
@@ -1235,8 +1258,8 @@ body {
 	}
 
 	.avatar-wrap {
-		width: 140px;
-		height: 140px;
+		width: 201.25px;
+		height: 201.25px;
 	}
 
 	.site-footer {

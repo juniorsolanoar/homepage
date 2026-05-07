@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="es">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Neon Social Buttons</title>
+
+		<style>
+			:root {
+				--bg: #0a0f0d;
+				--primary: #10b981;
+			}
+
+			body {
+				background: var(--bg);
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				height: 100vh;
+				margin: 0;
+				font-family: sans-serif;
+			}
+
+			/* CONTENEDOR */
+			.hero-cta {
+				display: flex;
+				gap: 20px;
+			}
+
+			/* BOTÓN BASE */
+			.social-btn {
+				width: 70px;
+				height: 70px;
+				border-radius: 50%;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				text-decoration: none;
+				color: var(--neon-color);
+				border: 2px solid var(--neon-color);
+				position: relative;
+				transition: all 0.3s ease;
+				animation: pulse 2.5s infinite ease-in-out;
+			}
+
+			/* SVG */
+			.social-btn svg {
+				width: 28px;
+				height: 28px;
+				fill: currentColor;
+				transition: transform 0.3s ease;
+				filter: drop-shadow(0 0 6px currentColor);
+			}
+
+			/* HOVER PRO */
+			.social-btn:hover {
+				transform: translateY(-6px) scale(1.1);
+				box-shadow:
+					0 0 20px var(--neon-color),
+					0 0 40px var(--neon-color),
+					0 0 60px var(--neon-color);
+			}
+
+			.social-btn:hover svg {
+				transform: scale(1.2) rotate(5deg);
+				filter: drop-shadow(0 0 12px currentColor);
+			}
+
+			/* ANIMACIÓN PULSE */
+			@keyframes pulse {
+				0%,
+				100% {
+					box-shadow: 0 0 10px var(--neon-color);
+				}
+				50% {
+					box-shadow: 0 0 25px var(--neon-color);
+				}
+			}
+
+			/* COLORES */
+			.fb {
+				--neon-color: #1877f2;
+			}
+			.whatsapp {
+				--neon-color: #25d366;
+			}
+			.instagram {
+				--neon-color: #e4405f;
+			}
+			.github {
+				--neon-color: #ffffff;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="hero-cta">
+			<!-- FACEBOOK -->
+			<a href="#" class="social-btn fb">
+				<svg viewBox="0 0 24 24">
+					<path
+						d="M13 22v-9h3l1-4h-4V7c0-1 0-2 2-2h2V1h-3c-4 0-5 2-5 5v3H6v4h3v9z"
+					/>
+				</svg>
+			</a>
+
+			<!-- WHATSAPP -->
+			<a href="#" class="social-btn whatsapp">
+				<svg viewBox="0 0 24 24">
+					<path
+						d="M20 3.5A11.9 11.9 0 0012 0 12 12 0 002 18l-2 6 6-2a12 12 0 0014-18.5z"
+					/>
+				</svg>
+			</a>
+
+			<!-- INSTAGRAM -->
+			<a href="#" class="social-btn instagram">
+				<svg viewBox="0 0 24 24">
+					<path
+						d="M7 2C4 2 2 4 2 7v10c0 3 2 5 5 5h10c3 0 5-2 5-5V7c0-3-2-5-5-5H7z"
+					/>
+				</svg>
+			</a>
+
+			<!-- GITHUB -->
+			<a href="#" class="social-btn github">
+				<svg viewBox="0 0 24 24">
+					<path d="M12 0a12 12 0 00-4 23" />
+				</svg>
+			</a>
+		</div>
+	</body>
+</html>
