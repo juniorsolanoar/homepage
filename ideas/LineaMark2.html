@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="es">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Mi Línea de Tiempo</title>
+		<link
+			href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap"
+			rel="stylesheet"
+		/>
+
+		<style>
+			:root {
+				--bg: #0f172a;
+				--primary: #22c55e;
+				--accent: #38bdf8;
+				--text: #e2e8f0;
+				--card: rgba(255, 255, 255, 0.06);
+			}
+
+			* {
+				margin: 0;
+				padding: 0;
+				box-sizing: border-box;
+				font-family: "Inter", sans-serif;
+			}
+
+			body {
+				background: var(--bg);
+				color: var(--text);
+				overflow-x: hidden;
+			}
+
+			header {
+				text-align: center;
+				padding: 80px 20px 20px;
+			}
+
+			header h1 {
+				font-size: 3rem;
+				font-weight: 800;
+				background: linear-gradient(
+					90deg,
+					var(--primary),
+					var(--accent)
+				);
+				-webkit-background-clip: text;
+				color: transparent;
+			}
+
+			header p {
+				opacity: 0.7;
+				margin-top: 10px;
+			}
+
+			/* ===== HORIZONTAL TIMELINE (ALL DEVICES) ===== */
+			.timeline {
+				position: relative;
+				display: flex;
+				gap: 40px;
+				padding: 80px 40px;
+				overflow-x: auto;
+				scroll-snap-type: x mandatory;
+				scroll-behavior: smooth;
+			}
+
+			/* Línea horizontal */
+			.timeline::before {
+				content: "";
+				position: absolute;
+				top: 50%;
+				left: 0;
+				width: 100%;
+				height: 4px;
+				background: linear-gradient(
+					90deg,
+					var(--primary),
+					var(--accent)
+				);
+				transform: translateY(-50%);
+				z-index: 0;
+			}
+
+			/* Cada item */
+			.container {
+				position: relative;
+				min-width: 320px;
+				scroll-snap-align: center;
+				display: flex;
+				justify-content: center;
+			}
+
+			.card {
+				background: var(--card);
+				backdrop-filter: blur(12px);
+				padding: 20px;
+				border-radius: 20px;
+				border: 1px solid rgba(255, 255, 255, 0.1);
+				width: 260px;
+				transition: 0.4s;
+				position: relative;
+				z-index: 2;
+			}
+
+			.card:hover {
+				transform: translateY(-10px) scale(1.03);
+				box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+			}
+
+			.date {
+				font-weight: 600;
+				color: var(--accent);
+				margin-bottom: 10px;
+			}
+
+			/* Punto en la línea */
+			.container::after {
+				content: "";
+				position: absolute;
+				top: 50%;
+				width: 18px;
+				height: 18px;
+				background: var(--primary);
+				border-radius: 50%;
+				transform: translateY(-50%);
+				z-index: 1;
+				box-shadow: 0 0 15px var(--primary);
+			}
+
+			/* Alternar arriba / abajo */
+			.container:nth-child(odd) .card {
+				transform: translateY(-60px);
+			}
+			.container:nth-child(even) .card {
+				transform: translateY(60px);
+			}
+
+			.container:nth-child(odd) .card:hover {
+				transform: translateY(-70px) scale(1.05);
+			}
+			.container:nth-child(even) .card:hover {
+				transform: translateY(70px) scale(1.05);
+			}
+
+			/* Scrollbar minimal */
+			.timeline::-webkit-scrollbar {
+				height: 6px;
+			}
+			.timeline::-webkit-scrollbar-thumb {
+				background: rgba(255, 255, 255, 0.2);
+				border-radius: 10px;
+			}
+
+			/* ===== MOBILE SLIDER FEEL ===== */
+			@media (max-width: 768px) {
+				.timeline {
+					gap: 20px;
+					padding: 60px 20px;
+				}
+
+				.container {
+					min-width: 85%;
+				}
+
+				.card {
+					width: 100%;
+				}
+
+				.container:nth-child(odd) .card,
+				.container:nth-child(even) .card {
+					transform: translateY(0);
+				}
+
+				.container:nth-child(odd) .card:hover,
+				.container:nth-child(even) .card:hover {
+					transform: scale(1.03);
+				}
+			}
+
+			/* Animación */
+			.hidden {
+				opacity: 0;
+				transform: scale(0.9);
+				transition: all 0.6s ease;
+			}
+			.show {
+				opacity: 1;
+				transform: scale(1);
+			}
+		</style>
+	</head>
+	<body>
+		<header>
+			<h1>Mi Evolución</h1>
+			<p>Arquitecto de ideas, ingeniero de realidades.</p>
+		</header>
+
+		<section class="timeline">
+			<div class="container hidden">
+				<div class="card">
+					<div class="date">Inicio</div>
+					<h3>Primeros pasos</h3>
+					<p>
+						Descubrí mi curiosidad por la tecnología y el
+						aprendizaje constante.
+					</p>
+				</div>
+			</div>
+
+			<div class="container hidden">
+				<div class="card">
+					<div class="date">Etapa 2</div>
+					<h3>Ventas & Servicio</h3>
+					<p>
+						Desarrollé habilidades de comunicación, empatía y
+						resolución de problemas.
+					</p>
+				</div>
+			</div>
+
+			<div class="container hidden">
+				<div class="card">
+					<div class="date">Etapa 3</div>
+					<h3>Entrada al desarrollo</h3>
+					<p>
+						Comencé a programar, crear soluciones y pensar como
+						desarrollador.
+					</p>
+				</div>
+			</div>
+
+			<div class="container hidden">
+				<div class="card">
+					<div class="date">Actualidad</div>
+					<h3>Asesor tecnológico</h3>
+					<p>
+						Combino tecnología, negocio y enseñanza para generar
+						impacto real.
+					</p>
+				</div>
+			</div>
+
+			<div class="container hidden">
+				<div class="card">
+					<div class="date">Futuro</div>
+					<h3>Escalar impacto</h3>
+					<p>
+						Construir soluciones, enseñar y dejar huella a gran
+						escala.
+					</p>
+				</div>
+			</div>
+		</section>
+
+		<script>
+			const observer = new IntersectionObserver(
+				(entries) => {
+					entries.forEach((entry) => {
+						if (entry.isIntersecting) {
+							entry.target.classList.add("show");
+						}
+					});
+				},
+				{ threshold: 0.3 },
+			);
+
+			document
+				.querySelectorAll(".hidden")
+				.forEach((el) => observer.observe(el));
+		</script>
+	</body>
+</html>
