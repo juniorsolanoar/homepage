@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="es">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Contáctame.!!</title>
+		<!-- EmailJS SDK -->
+		<script
+			type="text/javascript"
+			src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"
+		></script>
+		<link rel="stylesheet" href="contact.css" />
+	</head>
+	<body>
+		<div class="stars" aria-hidden="true"></div>
+		<main class="wrap">
+			<div class="glow" aria-hidden="true"></div>
+			<section class="panel">
+				<header class="topbar">
+					<div class="brand">
+						<div class="orbit" aria-hidden="true"></div>
+						<div>
+							<div>Contacto Interestelar</div>
+							<small style="color: var(--muted); font-weight: 500"
+								>Tu mensaje despega desde aquí</small
+							>
+						</div>
+					</div>
+				</header>
+
+				<section class="hero">
+					<!-- COPY -->
+					<div class="copy">
+						<h1>Hagamos algo asombroso juntos.!!</h1>
+						<p class="lead">
+							Soy desarrollador web, tutor y asesor tecnológico.
+							Ya sea que necesites construir un producto digital,
+							aprender a programar o tomar mejores decisiones
+							tecnológicas, estoy aquí para acompañarte en cada
+							etapa del proceso.
+						</p>
+						<div class="stats" aria-label="Servicios disponibles">
+							<div class="stat">
+								<strong>🛠 Desarrollo</strong>
+								<span>
+									Diseño y construyo aplicaciones web
+									modernas, rápidas y con buenas prácticas.
+								</span>
+							</div>
+							<div class="stat">
+								<strong>📚 Tutoría</strong>
+								<span>
+									Clases personalizadas de programación y
+									tecnología, a tu ritmo y nivel.
+								</span>
+							</div>
+							<div class="stat">
+								<strong>💡 Asesoría</strong>
+								<span>
+									Te ayudo a elegir las mejores herramientas y
+									estrategias para tu proyecto o negocio.
+								</span>
+							</div>
+						</div>
+					</div>
+
+					<!-- FORM SIDE -->
+					<aside class="form-side">
+						<div class="card">
+							<!-- Success overlay -->
+							<div
+								class="success-overlay"
+								id="successOverlay"
+								role="status"
+								aria-live="polite"
+							>
+								<div class="success-icon">✉️</div>
+								<h3>¡Señal recibida!</h3>
+								<p>
+									Tu mensaje está viajando por el cosmos.<br />Te
+									responderé muy pronto.
+								</p>
+								<button class="btn-reset" id="btnReset">
+									Enviar otro mensaje
+								</button>
+							</div>
+
+							<h2>Enviar señal de auxilio.</h2>
+
+							<form id="contactForm" novalidate>
+								<div class="grid-2">
+									<label>
+										Nombre
+										<div class="field-wrap">
+											<input
+												type="text"
+												name="nombre"
+												id="nombre"
+												placeholder="Tu nombre"
+												autocomplete="given-name"
+											/>
+										</div>
+										<span
+											class="field-msg"
+											id="msg-nombre"
+										></span>
+									</label>
+									<label>
+										Correo
+										<div class="field-wrap">
+											<input
+												type="email"
+												name="correo"
+												id="correo"
+												placeholder="tu@email.com"
+												autocomplete="email"
+											/>
+										</div>
+										<span
+											class="field-msg"
+											id="msg-correo"
+										></span>
+									</label>
+								</div>
+
+								<div class="grid-2">
+									<label>
+										Asunto
+										<div class="field-wrap">
+											<input
+												type="text"
+												name="asunto"
+												id="asunto"
+												placeholder="¿Sobre qué quieres hablar?"
+											/>
+										</div>
+										<span
+											class="field-msg"
+											id="msg-asunto"
+										></span>
+									</label>
+									<label>
+										Tipo de misión
+										<div class="field-wrap">
+											<select name="tipo" id="tipo">
+												<option value="">
+													— Selecciona —
+												</option>
+												<option
+													value="Consulta general"
+												>
+													Consulta general
+												</option>
+												<option value="Tutoría">
+													Tutoría
+												</option>
+												<option
+													value="Propuesta de proyecto"
+												>
+													Propuesta de proyecto
+												</option>
+												<option value="Proyecto web">
+													Proyecto web
+												</option>
+												<option value="Colaboración">
+													Colaboración
+												</option>
+												<option
+													value="Soporte / seguimiento"
+												>
+													Soporte / seguimiento
+												</option>
+												<option value="Oferta laboral">
+													Oferta laboral
+												</option>
+											</select>
+										</div>
+										<span
+											class="field-msg"
+											id="msg-tipo"
+										></span>
+									</label>
+								</div>
+
+								<label>
+									Tu mensaje
+									<div class="field-wrap">
+										<textarea
+											name="mensaje"
+											id="mensaje"
+											placeholder="Escribe aquí tu idea, pregunta o propuesta..."
+										></textarea>
+									</div>
+									<span
+										class="field-msg"
+										id="msg-mensaje"
+									></span>
+								</label>
+
+								<div class="actions">
+									<button
+										class="btn btn-primary"
+										type="submit"
+										id="btnSubmit"
+									>
+										<span id="btnText"
+											>✉ Enviar mensaje</span
+										>
+									</button>
+								</div>
+							</form>
+						</div>
+					</aside>
+				</section>
+
+				<div class="footer-note">
+					© 2026 — Viajando por el cosmos digital con Junior Solano.
+				</div>
+			</section>
+		</main>
+
+		<!-- Toast de error -->
+		<div class="toast" id="toast" role="alert"></div>
+
+		<script src="contact.js"></script>
+	</body>
+</html>
