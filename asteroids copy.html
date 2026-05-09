@@ -1,0 +1,540 @@
+<!doctype html>
+<html lang="es">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Asteroides 8-Bits Pro</title>
+		<style>
+			@import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap");
+
+			body {
+				background-color: #111;
+				color: #fff;
+				font-family: "Press Start 2P", cursive;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				justify-content: center;
+				height: 100vh;
+				margin: 0;
+				overflow: hidden;
+			}
+
+			h1 {
+				font-size: 28px;
+				color: #0ff;
+				text-shadow: 4px 4px 0px #f0f;
+				margin-bottom: 10px;
+				letter-spacing: 2px;
+			}
+
+			.contenedor-juego {
+				position: relative;
+			}
+
+			canvas {
+				background-color: #050510; /* Azul muy oscuro para el espacio */
+				border: 4px solid #fff;
+				box-shadow:
+					0 0 30px rgba(0, 255, 255, 0.4),
+					inset 0 0 20px rgba(255, 0, 255, 0.3);
+				image-rendering: pixelated;
+			}
+
+			/* Efecto de scanlines (líneas de TV antigua) */
+			.scanlines {
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 800px;
+				height: 600px;
+				background:
+					linear-gradient(
+						rgba(18, 16, 16, 0) 50%,
+						rgba(0, 0, 0, 0.25) 50%
+					),
+					linear-gradient(
+						90deg,
+						rgba(255, 0, 0, 0.06),
+						rgba(0, 255, 0, 0.02),
+						rgba(0, 0, 255, 0.06)
+					);
+				background-size:
+					100% 4px,
+					3px 100%;
+				pointer-events: none;
+				border: 4px solid transparent;
+			}
+
+			.controles {
+				margin-top: 15px;
+				font-size: 11px;
+				color: #ccc;
+				text-align: center;
+				line-height: 2;
+			}
+
+			.tecla {
+				background: #333;
+				padding: 4px 8px;
+				border-radius: 4px;
+				color: #0ff;
+				border: 1px solid #0ff;
+			}
+		</style>
+	</head>
+	<body>
+		<h1>NEON ASTEROIDS</h1>
+
+		<div class="contenedor-juego">
+			<canvas id="gameCanvas" width="800" height="600"></canvas>
+			<div class="scanlines"></div>
+			<!-- Capa de efecto TV retro -->
+		</div>
+
+		<div class="controles">
+			<span class="tecla">▲</span> Acelerar &nbsp;&nbsp;|&nbsp;&nbsp;
+			<span class="tecla">◀</span> <span class="tecla">▶</span> Rotar
+			&nbsp;&nbsp;|&nbsp;&nbsp;
+			<span class="tecla">ESPACIO</span> Disparar
+		</div>
+
+		<script>
+			const canvas = document.getElementById("gameCanvas");
+			const ctx = canvas.getContext("2d");
+
+			// --- PALETA DE COLORES 8-BITS ---
+			const COLORES = {
+				1: "#FFFFFF", // Blanco (Casco nave)
+				2: "#00FFFF", // Cyan (Cabina)
+				3: "#555555", // Gris Oscuro (Sombra asteroide)
+				4: "#AAAAAA", // Gris Claro (Luz asteroide)
+				5: "#FF8800", // Naranja (Motor interior)
+				6: "#FF0000", // Rojo (Motor exterior)
+			};
+
+			// --- DISEÑO DE SPRITES (Pixel Art en Matrices) ---
+			// 0 = Transparente, los números corresponden a la paleta de arriba
+			const SPRITE_NAVE = [
+				[0, 0, 0, 0, 1, 0, 0, 0, 0],
+				[0, 0, 0, 1, 2, 1, 0, 0, 0],
+				[0, 0, 1, 1, 2, 1, 1, 0, 0],
+				[0, 1, 1, 1, 1, 1, 1, 1, 0],
+				[1, 1, 0, 1, 1, 1, 0, 1, 1],
+				[1, 1, 1, 1, 1, 1, 1, 1, 1],
+				[1, 0, 1, 0, 0, 0, 1, 0, 1],
+				[1, 0, 0, 0, 0, 0, 0, 0, 1],
+			];
+
+			const SPRITE_MOTOR = [
+				[0, 0, 0, 0, 0, 0, 0, 0, 0],
+				[0, 0, 0, 0, 0, 0, 0, 0, 0],
+				[0, 0, 0, 0, 0, 0, 0, 0, 0],
+				[0, 0, 0, 0, 0, 0, 0, 0, 0],
+				[0, 0, 0, 0, 0, 0, 0, 0, 0],
+				[0, 0, 0, 0, 0, 0, 0, 0, 0],
+				[0, 0, 0, 6, 6, 6, 0, 0, 0],
+				[0, 0, 0, 0, 5, 0, 0, 0, 0],
+				[0, 0, 0, 0, 6, 0, 0, 0, 0],
+			];
+
+			const SPRITE_ASTEROIDE = [
+				[0, 0, 3, 4, 4, 3, 0, 0],
+				[0, 3, 4, 4, 4, 4, 3, 0],
+				[3, 4, 4, 3, 4, 4, 4, 3],
+				[3, 4, 4, 4, 4, 4, 4, 3],
+				[3, 3, 4, 4, 3, 4, 4, 3],
+				[0, 3, 4, 4, 4, 4, 3, 0],
+				[0, 0, 3, 3, 3, 3, 0, 0],
+			];
+
+			// --- CONSTANTES ---
+			const FPS = 60;
+			const FRICCION = 0.98;
+			const VELOCIDAD_GIRO = 300;
+			const POTENCIA_MOTOR = 6;
+			const VELOCIDAD_LASER = 600;
+			const VEL_ASTEROIDE = 40;
+
+			let nivel,
+				vidas,
+				puntuacion,
+				nave,
+				asteroides,
+				lasers,
+				particulas,
+				estrellas,
+				gameOver;
+
+			// --- INICIALIZACIÓN ---
+			function inicializarFondo() {
+				estrellas = [];
+				for (let i = 0; i < 100; i++) {
+					estrellas.push({
+						x: Math.random() * canvas.width,
+						y: Math.random() * canvas.height,
+						size: Math.random() > 0.8 ? 2 : 1, // Algunas estrellas son de 2px
+						alpha: Math.random(),
+					});
+				}
+			}
+
+			function configurarNave() {
+				return {
+					x: canvas.width / 2,
+					y: canvas.height / 2,
+					r: 15, // Radio de colisión
+					a: (90 / 180) * Math.PI,
+					rot: 0,
+					motor: false,
+					empuje: { x: 0, y: 0 },
+					explotando: false,
+					tiempoExplosion: 0,
+				};
+			}
+
+			function crearAsteroides() {
+				asteroides = [];
+				let num = 3 + nivel;
+				for (let i = 0; i < num; i++) {
+					let x, y;
+					do {
+						x = Math.floor(Math.random() * canvas.width);
+						y = Math.floor(Math.random() * canvas.height);
+					} while (distancia(nave.x, nave.y, x, y) < 100);
+
+					asteroides.push(nuevoAsteroide(x, y, 3)); // Tamaño 3 = Grande
+				}
+			}
+
+			function nuevoAsteroide(x, y, tamano) {
+				// tamano: 3(Grande), 2(Mediano), 1(Pequeño)
+				let escala = tamano * 2; // Multiplicador de píxeles
+				return {
+					x: x,
+					y: y,
+					xv:
+						((Math.random() * VEL_ASTEROIDE) / FPS) *
+						(Math.random() < 0.5 ? 1 : -1) *
+						(4 - tamano),
+					yv:
+						((Math.random() * VEL_ASTEROIDE) / FPS) *
+						(Math.random() < 0.5 ? 1 : -1) *
+						(4 - tamano),
+					r: (8 * escala) / 2, // Radio real basado en el sprite
+					tamano: tamano,
+					escala: escala,
+					angulo: Math.random() * Math.PI * 2,
+					velGiro: (Math.random() - 0.5) * 0.1, // Rotación continua
+				};
+			}
+
+			// --- DIBUJADOR DE PIXEL ART ---
+			function dibujarSprite(sprite, x, y, rotacionCanvas, escala) {
+				ctx.save();
+				ctx.translate(x, y);
+				// Rotamos el canvas completo para que el sprite apunte hacia donde debe
+				ctx.rotate(rotacionCanvas);
+
+				let ancho = sprite[0].length;
+				let alto = sprite.length;
+				// Desplazamos para que el centro del dibujo coincida con x,y
+				let offsetX = -(ancho * escala) / 2;
+				let offsetY = -(alto * escala) / 2;
+
+				for (let fila = 0; fila < alto; fila++) {
+					for (let col = 0; col < ancho; col++) {
+						let colorId = sprite[fila][col];
+						if (colorId !== 0) {
+							ctx.fillStyle = COLORES[colorId];
+							ctx.fillRect(
+								offsetX + col * escala,
+								offsetY + fila * escala,
+								escala,
+								escala,
+							);
+						}
+					}
+				}
+				ctx.restore();
+			}
+
+			// --- CONTROLES ---
+			document.addEventListener("keydown", (e) => {
+				if (gameOver && (e.code === "Space" || e.code === "Enter"))
+					return reiniciarJuego();
+				if (gameOver) return;
+
+				switch (e.code) {
+					case "ArrowLeft":
+						nave.rot = ((VELOCIDAD_GIRO / 180) * Math.PI) / FPS;
+						break;
+					case "ArrowRight":
+						nave.rot = ((-VELOCIDAD_GIRO / 180) * Math.PI) / FPS;
+						break;
+					case "ArrowUp":
+						nave.motor = true;
+						break;
+					case "Space":
+						disparar();
+						break;
+				}
+			});
+
+			document.addEventListener("keyup", (e) => {
+				if (gameOver) return;
+				switch (e.code) {
+					case "ArrowLeft":
+					case "ArrowRight":
+						nave.rot = 0;
+						break;
+					case "ArrowUp":
+						nave.motor = false;
+						break;
+				}
+			});
+
+			function disparar() {
+				if (lasers.length < 8 && !nave.explotando) {
+					lasers.push({
+						x: nave.x + nave.r * Math.cos(nave.a),
+						y: nave.y - nave.r * Math.sin(nave.a),
+						xv: (VELOCIDAD_LASER * Math.cos(nave.a)) / FPS,
+						yv: (-VELOCIDAD_LASER * Math.sin(nave.a)) / FPS,
+						vida: 40, // Cuadros de vida
+					});
+				}
+			}
+
+			function crearExplosion(x, y, cantidad, colorHex) {
+				for (let i = 0; i < cantidad; i++) {
+					particulas.push({
+						x: x,
+						y: y,
+						xv: (Math.random() - 0.5) * 8,
+						yv: (Math.random() - 0.5) * 8,
+						vida: Math.random() * 30 + 10,
+						color: Math.random() > 0.5 ? colorHex : "#FFFFFF",
+						size: Math.random() * 3 + 2,
+					});
+				}
+			}
+
+			// --- BUCLE PRINCIPAL ---
+			function actualizar() {
+				// Fondo
+				ctx.fillStyle = "#050510";
+				ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+				// Dibujar Estrellas (Fondo parpadeante)
+				for (let e of estrellas) {
+					ctx.fillStyle = `rgba(255, 255, 255, ${e.alpha})`;
+					ctx.fillRect(e.x, e.y, e.size, e.size);
+					e.alpha += (Math.random() - 0.5) * 0.1;
+					if (e.alpha < 0.2) e.alpha = 0.2;
+					if (e.alpha > 1) e.alpha = 1;
+				}
+
+				if (gameOver) {
+					ctx.fillStyle = "white";
+					ctx.textAlign = "center";
+					ctx.font = "40px 'Press Start 2P'";
+					ctx.fillText(
+						"GAME OVER",
+						canvas.width / 2,
+						canvas.height / 2,
+					);
+					ctx.font = "15px 'Press Start 2P'";
+					ctx.fillStyle = "#0ff";
+					ctx.fillText(
+						"PULSA ESPACIO PARA REINTENTAR",
+						canvas.width / 2,
+						canvas.height / 2 + 50,
+					);
+					return;
+				}
+
+				// Actualizar Partículas (Explosiones)
+				for (let i = particulas.length - 1; i >= 0; i--) {
+					let p = particulas[i];
+					p.x += p.xv;
+					p.y += p.yv;
+					p.vida--;
+					ctx.fillStyle = p.color;
+					ctx.fillRect(p.x, p.y, p.size, p.size);
+					if (p.vida <= 0) particulas.splice(i, 1);
+				}
+
+				// Dibujar Asteroides
+				for (let i = 0; i < asteroides.length; i++) {
+					let a = asteroides[i];
+					a.angulo += a.velGiro; // Hacer que giren
+					dibujarSprite(
+						SPRITE_ASTEROIDE,
+						a.x,
+						a.y,
+						a.angulo,
+						a.escala,
+					);
+
+					a.x += a.xv;
+					a.y += a.yv;
+
+					// Teletransporte en bordes
+					if (a.x < 0 - a.r) a.x = canvas.width + a.r;
+					else if (a.x > canvas.width + a.r) a.x = 0 - a.r;
+					if (a.y < 0 - a.r) a.y = canvas.height + a.r;
+					else if (a.y > canvas.height + a.r) a.y = 0 - a.r;
+				}
+
+				// Dibujar Láseres
+				ctx.fillStyle = "#00FFFF";
+				for (let i = lasers.length - 1; i >= 0; i--) {
+					let l = lasers[i];
+					l.x += l.xv;
+					l.y += l.yv;
+					l.vida--;
+
+					// Láser cuadrado retro
+					ctx.fillRect(l.x - 2, l.y - 2, 4, 4);
+
+					if (l.vida <= 0) {
+						lasers.splice(i, 1);
+						continue;
+					}
+
+					// Colisiones Láser - Asteroide
+					for (let j = asteroides.length - 1; j >= 0; j--) {
+						let a = asteroides[j];
+						if (distancia(a.x, a.y, l.x, l.y) < a.r) {
+							crearExplosion(a.x, a.y, 15, "#AAAAAA"); // Partículas grises
+							lasers.splice(i, 1);
+							puntuacion +=
+								a.tamano === 3 ? 10 : a.tamano === 2 ? 20 : 50;
+
+							// Dividir asteroide
+							if (a.tamano > 1) {
+								asteroides.push(
+									nuevoAsteroide(a.x, a.y, a.tamano - 1),
+								);
+								asteroides.push(
+									nuevoAsteroide(a.x, a.y, a.tamano - 1),
+								);
+							}
+							asteroides.splice(j, 1);
+
+							// Subir nivel
+							if (asteroides.length === 0) {
+								nivel++;
+								crearAsteroides();
+							}
+							break; // láser destruido, saltar al siguiente
+						}
+					}
+				}
+
+				// Dibujar y mover Nave
+				if (!nave.explotando) {
+					if (nave.motor) {
+						nave.empuje.x +=
+							(POTENCIA_MOTOR * Math.cos(nave.a)) / FPS;
+						nave.empuje.y -=
+							(POTENCIA_MOTOR * Math.sin(nave.a)) / FPS;
+					} else {
+						nave.empuje.x -= (FRICCION * nave.empuje.x) / FPS;
+						nave.empuje.y -= (FRICCION * nave.empuje.y) / FPS;
+					}
+
+					nave.a += nave.rot;
+					nave.x += nave.empuje.x;
+					nave.y += nave.empuje.y;
+
+					// Pantalla infinita
+					if (nave.x < 0 - nave.r) nave.x = canvas.width + nave.r;
+					else if (nave.x > canvas.width + nave.r)
+						nave.x = 0 - nave.r;
+					if (nave.y < 0 - nave.r) nave.y = canvas.height + nave.r;
+					else if (nave.y > canvas.height + nave.r)
+						nave.y = 0 - nave.r;
+
+					// --- RENDER NAVE 8-BITS ---
+					// Para rotar correctamente el sprite (que mira hacia arriba visualmente)
+					// con el ángulo matemático, restamos pi/2
+					let anguloVisual = -(nave.a - Math.PI / 2);
+
+					// Dibujar primero el fuego del motor si está acelerando
+					if (nave.motor)
+						dibujarSprite(
+							SPRITE_MOTOR,
+							nave.x,
+							nave.y,
+							anguloVisual,
+							3,
+						);
+					// Luego dibujar el casco de la nave encima
+					dibujarSprite(SPRITE_NAVE, nave.x, nave.y, anguloVisual, 3);
+
+					// Colisión Nave - Asteroide
+					for (let i = 0; i < asteroides.length; i++) {
+						if (
+							distancia(
+								nave.x,
+								nave.y,
+								asteroides[i].x,
+								asteroides[i].y,
+							) <
+							nave.r + asteroides[i].r - 5
+						) {
+							explotarNave();
+						}
+					}
+				} else {
+					nave.tiempoExplosion--;
+					if (nave.tiempoExplosion <= 0) {
+						vidas--;
+						if (vidas <= 0) gameOver = true;
+						else nave = configurarNave();
+					}
+				}
+
+				// HUD
+				ctx.fillStyle = "white";
+				ctx.textAlign = "left";
+				ctx.font = "16px 'Press Start 2P'";
+				ctx.fillText("SCORE: " + puntuacion, 20, 35);
+
+				ctx.fillStyle = "red";
+				ctx.font = "20px 'Press Start 2P'";
+				ctx.fillText("♥ ".repeat(vidas), 20, 70);
+			}
+
+			// --- FUNCIONES EXTRA ---
+			function explotarNave() {
+				nave.explotando = true;
+				nave.tiempoExplosion = FPS * 1.5;
+				crearExplosion(nave.x, nave.y, 40, "#FF0000"); // Explosión grande roja
+				crearExplosion(nave.x, nave.y, 20, "#FF8800"); // y naranja
+			}
+
+			function distancia(x1, y1, x2, y2) {
+				return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+			}
+
+			function reiniciarJuego() {
+				nivel = 0;
+				vidas = 3;
+				puntuacion = 0;
+				lasers = [];
+				particulas = [];
+				nave = configurarNave();
+				inicializarFondo();
+				crearAsteroides();
+				gameOver = false;
+			}
+
+			// Arrancar juego inicial
+			reiniciarJuego();
+			setInterval(actualizar, 1000 / FPS);
+		</script>
+	</body>
+</html>
